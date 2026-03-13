@@ -23,6 +23,13 @@ Primary report used for this repository:
 
 The report includes the full derivation, dataset setup, methodology, and detailed discussion across abstract, introduction, SVD separation method, and results sections.
 
+Report sections used for this README update:
+
+- Section 5.2: Time-domain signal analysis
+- Section 5.3: LP spectral analysis
+- Section 5.4: Quantitative energy analysis
+- Section 5.5: Additional session-wise visualizations
+
 ## Method Summary
 
 1. Construct multi-channel matrices using contaminated EEG plus EOG reference channels.
@@ -44,26 +51,72 @@ This folder contains experiment visualizations, including:
 - LP spectral comparisons
 - session-wise plots and supporting visuals
 
-## Visual Samples
+## Quantitative Results (From Report Table 2)
 
-![Result Figure 1](results/1.png)
-![Result Figure 2](results/3.png)
-![Result Figure 3](results/5.png)
+Energy loss percentages for F3 channel across 6 sessions:
 
-![LP Spectrum Example 1](results/lp2f3.jpg)
-![LP Spectrum Example 2](results/lp5f4.jpg)
+| Session | Energy Loss (1 Ref: AF3) | Energy Loss (2 Refs: AF3 + AF4) |
+| --- | --- | --- |
+| Session 1 | 69.07% | 69.14% |
+| Session 2 | 76.73% | 88.52% |
+| Session 3 | 61.86% | 62.73% |
+| Session 4 | 76.15% | 82.14% |
+| Session 5 | 61.84% | 38.47% |
+| Session 6 | 73.18% | 86.49% |
+
+Interpretation from report:
+
+- Two-reference configuration (AF3 + AF4) generally gives stronger artifact removal.
+- Single-reference configuration remains effective and stable across all sessions.
+- Session variability exists, but SVD consistently attenuates dominant ocular components.
+
+## Visual Results (Carefully Grouped)
+
+### Data Collection / Setup
+
+![Lab Data Acquisition](results/3.png)
+
+### Time-Domain Reconstructions
+
+These visuals correspond to raw vs reconstructed EEG comparisons discussed in report Section 5.2.
+
+![Time Domain Comparison A](results/1.png)
+![Time Domain Comparison B](results/5.png)
+
+### Session-Wise EEG Visualizations
+
+Representative session-level plots for F3/F4 trends (report Section 5.5):
+
+![Session Overview 1](results/9.png)
+![Session Overview 2](results/10.png)
+![Session Overview 3](results/16f4.png)
+
+### LP Spectral Comparisons
+
+LP spectra support preservation of neural rhythms while reducing low-frequency ocular artifacts (report Section 5.3).
+
+![LP Spectrum Session F3-1](results/lp1f3.jpg)
+![LP Spectrum Session F3-2](results/lp2f3.jpg)
+![LP Spectrum Session F3-3](results/lp3f3.jpg)
+
+![LP Spectrum Session F4-1](results/lp2f4.jpg)
+![LP Spectrum Session F4-2](results/lp5f4.jpg)
+![LP Spectrum Session F4-3](results/lp6f4.jpg)
 
 ## Key Observations (From Report)
 
 - SVD projection effectively attenuates dominant ocular artifacts.
 - Structural EEG morphology is preserved after reconstruction.
 - Spectral characteristics remain consistent with expected EEG rhythm behavior.
-- The report documents stronger reconstruction quality when using robust reference-channel configuration.
+- Two-reference configuration (AF3 + AF4) usually improves artifact isolation quality.
+- Energy-based analysis confirms strong artifact suppression in multiple sessions.
 
 ## Repository Structure
 
 - [report.pdf](report.pdf): final project report
 - [results](results): result figures copied from the project output folder
+- [results/lp1f3.jpg](results/lp1f3.jpg): LP spectral sample (F3)
+- [results/lp2f4.jpg](results/lp2f4.jpg): LP spectral sample (F4)
 - [thisone](thisone): supporting project files/dataset bundle
 - [code_new.mlx](code_new.mlx): MATLAB implementation notebook
 - [mfc_proj_123.mlx](mfc_proj_123.mlx): supplementary MATLAB workflow
