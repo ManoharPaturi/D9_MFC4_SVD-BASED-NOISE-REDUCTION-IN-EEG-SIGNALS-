@@ -1,0 +1,11 @@
+\contentsline {section}{\numberline {1}Abstract}{2}{}%
+\contentsline {section}{\numberline {2}Introduction}{2}{}%
+\contentsline {section}{\numberline {3}SVD Technique for Signal Separation}{5}{}%
+\contentsline {section}{\numberline {4}Application to Noise Reduction in EEG Signals}{9}{}%
+\contentsline {section}{\numberline {5}Results and Discussion}{11}{}%
+\contentsline {subsection}{\numberline {5.1}Experimental Setup and Data Acquisition}{11}{}%
+\contentsline {subsection}{\numberline {5.2}Time-Domain Signal Analysis}{12}{}%
+\contentsline {subsection}{\numberline {5.3}Spectral Analysis via Linear Prediction (LP)}{14}{}%
+\contentsline {subsection}{\numberline {5.4}Quantitative Energy Analysis}{16}{}%
+\contentsline {subsection}{\numberline {5.5}Additional Session-wise Visualizations}{17}{}%
+\contentsline {section}{\numberline {6}Conclusion}{22}{}%
