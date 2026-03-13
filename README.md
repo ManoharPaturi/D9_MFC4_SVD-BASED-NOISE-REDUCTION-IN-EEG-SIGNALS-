@@ -39,6 +39,17 @@ Report sections used for this README update:
 4. Reconstruct artifact-reduced EEG using the selected subspace projection.
 5. Validate in time domain and LP spectral domain.
 
+## Experimental Setup (From Report)
+
+- Device: Emotiv Epoc X headset
+- EEG channels analyzed: F3 and F4
+- EOG reference channels: AF3 (single-ref) and AF3 + AF4 (two-ref)
+- Environment: MATLAB workflow for decomposition, reconstruction, and visualization
+- Evaluation strategy:
+   - Time-domain raw vs reconstructed waveform inspection
+   - LP spectral comparison before/after filtering
+   - Quantitative energy-loss computation from singular values
+
 ## Results Folder
 
 All visual outputs were added under:
@@ -83,6 +94,12 @@ These visuals correspond to raw vs reconstructed EEG comparisons discussed in re
 ![Time Domain Comparison A](results/1.png)
 ![Time Domain Comparison B](results/5.png)
 
+Reading guide:
+
+- Raw traces show large-amplitude ocular contamination.
+- Reconstructed traces suppress blink/eye-movement spikes.
+- Two-reference reconstruction typically yields cleaner baselines.
+
 ### Session-Wise EEG Visualizations
 
 Representative session-level plots for F3/F4 trends (report Section 5.5):
@@ -103,6 +120,11 @@ LP spectra support preservation of neural rhythms while reducing low-frequency o
 ![LP Spectrum Session F4-2](results/lp5f4.jpg)
 ![LP Spectrum Session F4-3](results/lp6f4.jpg)
 
+Reading guide:
+
+- Low-frequency components associated with EOG are attenuated after SVD filtering.
+- Higher-frequency EEG rhythm content remains comparatively preserved.
+
 ## Key Observations (From Report)
 
 - SVD projection effectively attenuates dominant ocular artifacts.
@@ -110,6 +132,27 @@ LP spectra support preservation of neural rhythms while reducing low-frequency o
 - Spectral characteristics remain consistent with expected EEG rhythm behavior.
 - Two-reference configuration (AF3 + AF4) usually improves artifact isolation quality.
 - Energy-based analysis confirms strong artifact suppression in multiple sessions.
+
+## Reproducibility Notes
+
+To reproduce the pipeline from repository artifacts:
+
+1. Open the MATLAB scripts/notebooks:
+    - [code_new.mlx](code_new.mlx)
+    - [mfc_proj_123.mlx](mfc_proj_123.mlx)
+2. Load EEG/EOG session data from the project dataset folder.
+3. Build contamination matrices using F3/F4 with AF3 or AF3+AF4 references.
+4. Perform SVD and reconstruct clean EEG from selected components.
+5. Compare outputs against plots in [results](results).
+
+## Limitations and Next Steps
+
+- Results are currently documented for a limited number of sessions.
+- Channel selection is focused on frontal electrodes for artifact-dominant analysis.
+- Future work:
+   - larger multi-subject validation
+   - automated component-selection criteria
+   - additional quantitative metrics beyond energy-loss percentage
 
 ## Repository Structure
 
