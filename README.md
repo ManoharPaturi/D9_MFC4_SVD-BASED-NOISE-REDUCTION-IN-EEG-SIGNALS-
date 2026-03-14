@@ -1,49 +1,166 @@
 # D9_MFC4_SVD-BASED-NOISE-REDUCTION-IN-EEG-SIGNALS-
- A Linear Algebra Approach to Biomedical Signal Enhancement 
 
+SVD-based artifact attenuation workflow for EEG signals contaminated by EOG components.
 
-## 1. Team Members
-**Team 9**
-* **Manohar P** - [CB.SC.U4AIE24339]
-* **Mrudula** - [CB.SC.U4AIE24340]
-* **Sainath** - [CB.SC.U4AIE24309]
-* **Pushpak** - [CB.SC.U4AIE24328]
+## Team
 
+- Manohar P - CB.SC.U4AIE24339
+- P. Sai Mrudula - CB.SC.U4AIE24340
+- B. Sainath Reddy - CB.SC.U4AIE24309
+- K. Pushpak Siva Sai - CB.SC.U4AIE24328
 
+## Reference Paper
 
-## 2. Base/Reference Paper
-This project attempts to recreate and validate the results of the following research paper:
-* **Title:** *SVD based technique for noise reduction in electroencephalographic signals*
-* **Authors:** P.K. Sadasivan, D. Narayana Dutt (Department of ECE, Indian Institute of Science, Bangalore)
-* **Journal:** Signal Processing 55 (1996) 179-189 (Elsevier)
-* **DOI/Source:** [https://doi.org/10.1016/S0165-1684(96)00129-6](https://doi.org/10.1016/S0165-1684(96)00129-6)
+- Title: SVD based technique for noise reduction in electroencephalographic signals
+- Authors: P.K. Sadasivan, D. Narayana Dutt
+- DOI: https://doi.org/10.1016/S0165-1684(96)00129-6
 
-## 3. Project Outline
-The objective of this project is to extract weak Electroencephalogram (EEG) signals hidden within strong Electrooculogram (EOG/eye movement) artifacts using Singular Value Decomposition (SVD).
+## Project Report
 
-**Key Methodology:**
-1.  **Data Construction:** Modeling the observed signal as a linear combination of source signals (artifacts) and noise (pure EEG).
-2.  **SVD Decomposition:** Decomposing the data matrix $M$ into singular vectors ($U, V$) and singular values ($\Sigma$).
-3.  **Subspace Separation:**
-    * **Signal Subspace:** Corresponds to the largest singular values (dominated by high-energy EOG artifacts).
-    * **Noise Subspace:** Corresponds to the smaller singular values (containing the desired EEG).
-4.  **Reconstruction:** Reconstructing the clean EEG by projecting the data onto the noise subspace, effectively filtering out the artifacts.
+Primary report used for this repository:
 
-## 4. Updates
-We have successfully implemented the core algorithm in MATLAB and verified the results against the reference paper.
+- [report.pdf](report.pdf)
 
-* **Simulation Environment:** Created a simulation generating Alpha (10Hz) and Beta (20Hz) rhythms mixed with EOG artifacts (0-4Hz).
-* **High-Fidelity Reproduction:** Successfully recreated the "EOG-Contaminated EEG" with an input SNR of -9.5 dB to match the paper's harsh testing conditions.
-* **Algorithm Success:** Implemented the SVD projection and reconstruction.
-    * **Result:** Achieved an Output SNR of **~13.83 dB** (1 Ref) and **~19.16 dB** (2 Refs), which aligns with and slightly exceeds the paper's reported ~10 dB.
-* **Validation:** Generated Linear Prediction (LP) Spectra comparisons showing the successful removal of low-frequency artifact peaks while preserving Alpha/Beta rhythms.
+The report includes the full derivation, dataset setup, methodology, and detailed discussion across abstract, introduction, SVD separation method, and results sections.
 
-## 5. Challenges / Issues Faced
-During the implementation, we encountered and solved the following technical hurdles:
-* **Sign Indeterminacy:** The SVD algorithm often returned singular vectors with inverted signs (a known mathematical property of SVD). This resulted in the reconstructed EEG being "upside down." We implemented a correlation check against the input to automatically flip the sign if necessary.
-* **Rank Estimation:** Determining the exact rank ($r$) of the artifact subspace was critical. We found that since EOG power is significantly higher (~20x) than EEG, the first singular value almost always captured the artifact, allowing us to set $r=1$ for this simulation.
-* **Noise Scaling:** Tuning the simulation to exactly match the -9.5 dB Input SNR required precise adjustment of the EOG-to-EEG power ratios, which we solved by normalizing the signal powers before mixing.
+Report sections used for this README update:
 
-## 6. Future Plans
-* **Getting our own dataset:** We plan to record our own EEG and EOG data using the equipment available in the Robotics Lab. This will allow us to test the algorithm on fresh, real-world biological signals.
-* **Public Dataset Validation:** In addition to our own data, we will validate the SVD implementation using the **EEG Eye Artifact Dataset** hosted on Zenodo: https://zenodo.org/records/4002038.
+- Section 5.2: Time-domain signal analysis
+- Section 5.3: LP spectral analysis
+- Section 5.4: Quantitative energy analysis
+- Section 5.5: Additional session-wise visualizations
+
+## Method Summary
+
+1. Construct multi-channel matrices using contaminated EEG plus EOG reference channels.
+2. Apply SVD decomposition:
+   $M = U\Sigma V^T$
+3. Identify artifact-dominant components using singular value structure.
+4. Reconstruct artifact-reduced EEG using the selected subspace projection.
+5. Validate in time domain and LP spectral domain.
+
+## Experimental Setup (From Report)
+
+- Device: Emotiv Epoc X headset
+- EEG channels analyzed: F3 and F4
+- EOG reference channels: AF3 (single-ref) and AF3 + AF4 (two-ref)
+- Environment: MATLAB workflow for decomposition, reconstruction, and visualization
+- Evaluation strategy:
+   - Time-domain raw vs reconstructed waveform inspection
+   - LP spectral comparison before/after filtering
+   - Quantitative energy-loss computation from singular values
+
+## Results Folder
+
+All visual outputs were added under:
+
+- [results](results)
+
+This folder contains experiment visualizations, including:
+
+- time-domain signal figures
+- LP spectral comparisons
+- session-wise plots and supporting visuals
+
+## Quantitative Results (From Report Table 2)
+
+Energy loss percentages for F3 channel across 6 sessions:
+
+| Session | Energy Loss (1 Ref: AF3) | Energy Loss (2 Refs: AF3 + AF4) |
+| --- | --- | --- |
+| Session 1 | 69.07% | 69.14% |
+| Session 2 | 76.73% | 88.52% |
+| Session 3 | 61.86% | 62.73% |
+| Session 4 | 76.15% | 82.14% |
+| Session 5 | 61.84% | 38.47% |
+| Session 6 | 73.18% | 86.49% |
+
+Interpretation from report:
+
+- Two-reference configuration (AF3 + AF4) generally gives stronger artifact removal.
+- Single-reference configuration remains effective and stable across all sessions.
+- Session variability exists, but SVD consistently attenuates dominant ocular components.
+
+## Visual Results (Carefully Grouped)
+
+### Data Collection / Setup
+
+![Lab Data Acquisition](results/3.png)
+
+### Time-Domain Reconstructions
+
+These visuals correspond to raw vs reconstructed EEG comparisons discussed in report Section 5.2.
+
+![Time Domain Comparison A](results/1.png)
+![Time Domain Comparison B](results/5.png)
+
+Reading guide:
+
+- Raw traces show large-amplitude ocular contamination.
+- Reconstructed traces suppress blink/eye-movement spikes.
+- Two-reference reconstruction typically yields cleaner baselines.
+
+### Session-Wise EEG Visualizations
+
+Representative session-level plots for F3/F4 trends (report Section 5.5):
+
+![Session Overview 1](results/9.png)
+![Session Overview 2](results/10.png)
+![Session Overview 3](results/16f4.png)
+
+### LP Spectral Comparisons
+
+LP spectra support preservation of neural rhythms while reducing low-frequency ocular artifacts (report Section 5.3).
+
+![LP Spectrum Session F3-1](results/lp1f3.jpg)
+![LP Spectrum Session F3-2](results/lp2f3.jpg)
+![LP Spectrum Session F3-3](results/lp3f3.jpg)
+
+![LP Spectrum Session F4-1](results/lp2f4.jpg)
+![LP Spectrum Session F4-2](results/lp5f4.jpg)
+![LP Spectrum Session F4-3](results/lp6f4.jpg)
+
+Reading guide:
+
+- Low-frequency components associated with EOG are attenuated after SVD filtering.
+- Higher-frequency EEG rhythm content remains comparatively preserved.
+
+## Key Observations (From Report)
+
+- SVD projection effectively attenuates dominant ocular artifacts.
+- Structural EEG morphology is preserved after reconstruction.
+- Spectral characteristics remain consistent with expected EEG rhythm behavior.
+- Two-reference configuration (AF3 + AF4) usually improves artifact isolation quality.
+- Energy-based analysis confirms strong artifact suppression in multiple sessions.
+
+## Reproducibility Notes
+
+To reproduce the pipeline from repository artifacts:
+
+1. Open the MATLAB scripts/notebooks:
+    - [code_new.mlx](code_new.mlx)
+    - [mfc_proj_123.mlx](mfc_proj_123.mlx)
+2. Load EEG/EOG session data from the project dataset folder.
+3. Build contamination matrices using F3/F4 with AF3 or AF3+AF4 references.
+4. Perform SVD and reconstruct clean EEG from selected components.
+5. Compare outputs against plots in [results](results).
+
+## Limitations and Next Steps
+
+- Results are currently documented for a limited number of sessions.
+- Channel selection is focused on frontal electrodes for artifact-dominant analysis.
+- Future work:
+   - larger multi-subject validation
+   - automated component-selection criteria
+   - additional quantitative metrics beyond energy-loss percentage
+
+## Repository Structure
+
+- [report.pdf](report.pdf): final project report
+- [results](results): result figures copied from the project output folder
+- [results/lp1f3.jpg](results/lp1f3.jpg): LP spectral sample (F3)
+- [results/lp2f4.jpg](results/lp2f4.jpg): LP spectral sample (F4)
+- [thisone](thisone): dataset bundle
+- [code_new.mlx](code_new.mlx): MATLAB implementation for reconstrction of our own dataset
+- [mfc_proj_123.mlx](mfc_proj_123.mlx): MATLAB implementation for reconstrction of the dataset that we took from internet.
+  
