@@ -160,6 +160,7 @@ To reproduce the pipeline from repository artifacts:
 - [results](results): result figures copied from the project output folder
 - [results/lp1f3.jpg](results/lp1f3.jpg): LP spectral sample (F3)
 - [results/lp2f4.jpg](results/lp2f4.jpg): LP spectral sample (F4)
-- [thisone](thisone): supporting project files/dataset bundle
-- [code_new.mlx](code_new.mlx): MATLAB implementation notebook
-- [mfc_proj_123.mlx](mfc_proj_123.mlx): supplementary MATLAB workflow
+- [thisone](thisone): dataset bundle
+- [code_new.mlx](code_new.mlx): MATLAB implementation for reconstrction of our own dataset
+- [mfc_proj_123.mlx](mfc_proj_123.mlx): MATLAB implementation for reconstrction of the dataset that we took from internet.
+  
